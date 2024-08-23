@@ -1,2 +1,4 @@
 # open_weather_project
- A small project pulling data from Open Weather Map 
+This is a small project that consists in pulling weather data from Open Weather Map
+
+Retrieved data will be pushed to Google Cloud Platform to display the current weather via Looker. 
