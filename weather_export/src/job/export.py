@@ -1,13 +1,9 @@
 import requests
 import logging
 import os
-import json
-from dotenv import load_dotenv
 import datetime
 from timeit import default_timer as timer
 from google.cloud import bigquery
-
-load_dotenv()
 
 OPEN_WEATHER_MAP_API_KEY = os.getenv("OPEN_WEATHER_MAP_API_KEY")
 LATITUDE = os.getenv("LATITUDE")
