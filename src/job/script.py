@@ -5,12 +5,14 @@ import json
 from dotenv import load_dotenv
 import datetime
 from timeit import default_timer as timer
+from google.cloud import bigquery
 
 load_dotenv()
 
 OPEN_WEATHER_MAP_API_KEY = os.getenv("OPEN_WEATHER_MAP_API_KEY")
 LATITUDE = os.getenv("LATITUDE")
 LONGITUDE = os.getenv("LONGITUDE")
+TABLE_ID = os.getenv("TABLE_ID")
 
 # Configure the logging module
 logging.basicConfig(
@@ -106,15 +108,30 @@ def extract_weather_information_from_json(data):
         logging.error("Failed to convert timestamp to date: %s", e)
         weather_info["date"] = "No date available"
 
-    logging.info("Succesfuly extracted weather information: %s", weather_info)
+    logging.info("Successfully extracted weather information: %s", weather_info)
 
     return weather_info
 
+def append_weather_data_to_bigquery(weather_info, TABLE_ID):
+    try:
+        client = bigquery.Client()
+
+        # Insert the rows into the table
+        errors = client.insert_rows_json(TABLE_ID, [weather_info])
+
+        if errors:
+            raise Exception(f"BigQuery insertion errors occurred: {errors}")
+
+        logging.info("Weather information successfully appended to BigQuery.")
+
+    except Exception as e:
+        logging.error("An error occurred while appending data to BigQuery: %s", e)
 
 def main():
     start = timer()
     data = get_current_weather(LATITUDE, LONGITUDE, OPEN_WEATHER_MAP_API_KEY)
-    extract_weather_information_from_json(data)
+    weather_information = extract_weather_information_from_json(data)
+    append_weather_data_to_bigquery(weather_information, TABLE_ID)
     end = timer()
     duration = round(end - start, 1)
     logging.info("The script took %ss to complete", duration)
