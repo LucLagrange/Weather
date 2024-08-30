@@ -1,6 +1,10 @@
+(venv) ~/Documents/Weather git:[Dockerization]
+pip freeze
+black==24.8.0
 cachetools==5.5.0
 certifi==2024.8.30
 charset-normalizer==3.3.2
+click==8.1.7
 google-api-core==2.19.2
 google-auth==2.34.0
 google-cloud-bigquery==3.25.0
@@ -11,9 +15,12 @@ googleapis-common-protos==1.65.0
 grpcio==1.66.1
 grpcio-status==1.66.1
 idna==3.8
+mypy-extensions==1.0.0
 numpy==2.1.0
 packaging==24.1
 pandas==2.2.2
+pathspec==0.12.1
+platformdirs==4.2.2
 proto-plus==1.24.0
 protobuf==5.28.0
 pyasn1==0.6.0

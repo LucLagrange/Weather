@@ -112,6 +112,7 @@ def extract_weather_information_from_json(data):
 
     return weather_info
 
+
 def append_weather_data_to_bigquery(weather_info, TABLE_ID):
     try:
         client = bigquery.Client()
@@ -126,6 +127,7 @@ def append_weather_data_to_bigquery(weather_info, TABLE_ID):
 
     except Exception as e:
         logging.error("An error occurred while appending data to BigQuery: %s", e)
+
 
 def main():
     start = timer()
