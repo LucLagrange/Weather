@@ -15,6 +15,7 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+
 # Extracts the current weather
 def get_current_weather(LATITUDE, LONGITUDE, OPEN_WEATHER_MAP_API_KEY):
     url = (
@@ -110,8 +111,15 @@ def extract_weather_information_from_json(data):
 
 
 def append_weather_data_to_bigquery(weather_info, TABLE_ID):
+    logging.info("Table ID is: %s", TABLE_ID)
     try:
+        logging.info("Initializing BigQuery client.")
         client = bigquery.Client()
+
+        # Check if client is correctly initialized
+        if client is None:
+            logging.error("Failed to initialize BigQuery client. Client is None.")
+            return
 
         # Insert the rows into the table
         errors = client.insert_rows_json(TABLE_ID, [weather_info])
