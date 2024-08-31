@@ -28,12 +28,13 @@ def get_current_weather(LATITUDE, LONGITUDE, OPEN_WEATHER_MAP_API_KEY):
         "lang": "en",  # Language for the response
     }
 
-    logging.info("Fetching the weather information")
+    logging.info("Fetching the weather information for %s, %s", LATITUDE, LONGITUDE)
 
     try:
         response = requests.get(url, params=params)
         data = response.json()
         logging.info("Succesfuly fetched weather information")
+        logging.info("API response: %s", data)
     except requests.exceptions.RequestException as e:
         logging.error("Error fetching the weather data:", e)
         return None
@@ -110,8 +111,15 @@ def extract_weather_information_from_json(data):
 
 
 def append_weather_data_to_bigquery(weather_info, TABLE_ID):
+    logging.info("Table ID is: %s", TABLE_ID)
     try:
+        logging.info("Initializing BigQuery client.")
         client = bigquery.Client()
+
+        # Check if client is correctly initialized
+        if client is None:
+            logging.error("Failed to initialize BigQuery client. Client is None.")
+            return
 
         # Insert the rows into the table
         errors = client.insert_rows_json(TABLE_ID, [weather_info])
