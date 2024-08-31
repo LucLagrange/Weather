@@ -7,10 +7,9 @@ services:
     environment:
       OPEN_WEATHER_MAP_API_KEY: $OPEN_WEATHER_MAP_API_KEY
       GOOGLE_APPLICATION_CREDENTIALS: '/credentials/credentials.json'
-      LATITUDE: '48.8'
-      LONGITUDE: '2.433'
+      LATITUDE: '48.8012045'
+      LONGITUDE: '2.4309703'
       TABLE_ID: 'weather-433510.datalake_prod.weather_data'
-      PYTHONPATH: "${PYTHONPATH}:/opt/program/job"
     volumes:
       # Source code
       - ./src/job:/opt/program/job

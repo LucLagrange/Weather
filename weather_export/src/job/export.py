@@ -15,7 +15,6 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-
 # Extracts the current weather
 def get_current_weather(LATITUDE, LONGITUDE, OPEN_WEATHER_MAP_API_KEY):
     url = (
@@ -28,12 +27,13 @@ def get_current_weather(LATITUDE, LONGITUDE, OPEN_WEATHER_MAP_API_KEY):
         "lang": "en",  # Language for the response
     }
 
-    logging.info("Fetching the weather information")
+    logging.info("Fetching the weather information for %s, %s", LATITUDE, LONGITUDE)
 
     try:
         response = requests.get(url, params=params)
         data = response.json()
         logging.info("Succesfuly fetched weather information")
+        logging.info("API response: %s", data)
     except requests.exceptions.RequestException as e:
         logging.error("Error fetching the weather data:", e)
         return None
